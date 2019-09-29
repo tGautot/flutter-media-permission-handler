@@ -10,6 +10,8 @@ Using the base package, the app-store would reject your app unless you had speci
  `kTCCServiceMediaLibrary`
  `NSAppleMusicUsageDescription`
  
+ Note: if you want to save images to the photo app, you may also need to add the `NSPhotoLibraryAddUsageDescription` for the newer version of ios
+ 
  There was no changes made to the android part of the package
  
  Please check out the original package readme, you may find some intresting information or answers to potential questions.
