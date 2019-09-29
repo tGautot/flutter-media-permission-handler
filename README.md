@@ -18,7 +18,7 @@ Using the base package, the app-store would reject your app unless you had speci
 
 ## Using this package
 
-If you want to use this package in your flutter project, add this to your `pubsec.yaml`
+If you want to use this package in your flutter project, add this to your `pubspec.yaml`
 ```yaml
 dependencies:
   
