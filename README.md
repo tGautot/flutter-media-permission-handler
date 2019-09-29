@@ -1,6 +1,6 @@
 # Flutter Media Permission Handler
 
-Forked from [flutter_permission_handler](https://github.com/BaseflowIT/flutter-permission-handler) to deal with the following issue:
+Forked from [flutter_permission_handler](https://github.com/BaseflowIT/flutter-permission-handler) to deal with [this](https://github.com/BaseflowIT/flutter-permission-handler/issues/26) issue:
 
 Using the base package, the app-store would reject your app unless you had specified a description for every single ios permission covered in the package. There is still the same behavior here but because all the non media permission were removed, the only description that you must still provide are those five:
  
