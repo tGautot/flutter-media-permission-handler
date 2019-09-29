@@ -22,5 +22,5 @@ dev_dependencies:
 
 flutter:
   plugin:
-    androidPackage: com.baseflow.permissionhandler
-    pluginClass: PermissionHandlerPlugin
+    androidPackage: com.baseflow.mediapermissionhandler
+    pluginClass: MediaPermissionHandlerPlugin
