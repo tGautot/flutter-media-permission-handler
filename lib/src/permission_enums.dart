@@ -85,26 +85,26 @@ class PermissionGroup {
 
   /// Android: Camera
   /// iOS: Photos (Camera Roll and Camera)
-  static const PermissionGroup camera = PermissionGroup._(1);
+  static const PermissionGroup camera = PermissionGroup._(0); //Previously: 1
 
   /// Android: None
   /// iOS: MPMediaLibrary
-  static const PermissionGroup mediaLibrary = PermissionGroup._(6);
+  static const PermissionGroup mediaLibrary = PermissionGroup._(1); //Previously: 6
 
   /// Android: Microphone
   /// iOS: Microphone
-  static const PermissionGroup microphone = PermissionGroup._(7);
+  static const PermissionGroup microphone = PermissionGroup._(2); //Previously: 7
 
   /// Android: Nothing
   /// iOS: Photos
-  static const PermissionGroup photos = PermissionGroup._(9);
+  static const PermissionGroup photos = PermissionGroup._(3); //Previously: 9
 
   /// Android: External Storage
   /// iOS: Nothing
-  static const PermissionGroup storage = PermissionGroup._(14);
+  static const PermissionGroup storage = PermissionGroup._(4); //Previously: 14
 
   /// The unknown permission only used for return type, never requested
-  static const PermissionGroup unknown = PermissionGroup._(16);
+  static const PermissionGroup unknown = PermissionGroup._(5); //Previously: 16
 
   static const List<PermissionGroup> values = <PermissionGroup>[
     camera,
@@ -118,6 +118,7 @@ class PermissionGroup {
   static const List<String> _names = <String>[
     'camera',
     'mediaLibrary',
+    'microphone',
     'photos',
     'storage',
     'unknown',
