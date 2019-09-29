@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "AudioVideoPermissionStrategy.h"
 #import "MediaLibraryPermissionStrategy.h"
 #import "PermissionStrategy.h"
 #import "PhotoPermissionStrategy.h"
