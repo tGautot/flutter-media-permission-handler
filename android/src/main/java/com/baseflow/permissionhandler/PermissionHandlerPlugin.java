@@ -44,24 +44,48 @@ public class PermissionHandlerPlugin implements MethodCallHandler {
   private static final int PERMISSION_CODE_IGNORE_BATTERY_OPTIMIZATIONS = 5672353;
 
   //PERMISSION_GROUP
-  private static final int PERMISSION_GROUP_CAMERA = 0; // Previoulsy: 1
-  private static final int PERMISSION_GROUP_MEDIA_LIBRARY = 1; // Previoulsy: 6
-  private static final int PERMISSION_GROUP_MICROPHONE = 2; // Previoulsy: 7
-  private static final int PERMISSION_GROUP_PHOTOS = 3; // Previoulsy: 9
-  private static final int PERMISSION_GROUP_STORAGE = 4; // Previoulsy: 14
-  private static final int PERMISSION_GROUP_UNKNOWN = 5; // Previoulsy: 16
+  private static final int PERMISSION_GROUP_CAMERA = 0; // Previoulsy 1
+  private static final int PERMISSION_GROUP_MEDIA_LIBRARY = 1; // Previoulsy 6
+  private static final int PERMISSION_GROUP_MICROPHONE = 2; // Previoulsy 7
+  private static final int PERMISSION_GROUP_PHOTOS = 3; // Previoulsy 9
+  private static final int PERMISSION_GROUP_STORAGE = 4; // Previoulsy 14
+  private static final int PERMISSION_GROUP_UNKNOWN = 5; // Previoulsy 16
 
+  //UNUSED PERMISSION GROUPS (not deleted so I dont have to modify the code)
+  private static final int PERMISSION_GROUP_CALENDAR = 100; // Previoulsy 0
+  private static final int PERMISSION_GROUP_CONTACTS = 102; // Previoulsy 2
+  private static final int PERMISSION_GROUP_LOCATION = 103; // Previoulsy 3
+  private static final int PERMISSION_GROUP_LOCATION_ALWAYS = 104; // Previoulsy 4
+  private static final int PERMISSION_GROUP_LOCATION_WHEN_IN_USE = 105; // Previoulsy 5
+  private static final int PERMISSION_GROUP_PHONE = 108; // Previoulsy 8
+  private static final int PERMISSION_GROUP_REMINDERS = 1010; // Previoulsy 10
+  private static final int PERMISSION_GROUP_SENSORS = 1011; // Previoulsy 11
+  private static final int PERMISSION_GROUP_SMS = 1012; // Previoulsy 12
+  private static final int PERMISSION_GROUP_SPEECH = 1013; // Previoulsy 13
+  private static final int PERMISSION_GROUP_IGNORE_BATTERY_OPTIMIZATIONS = 1015; // Previoulsy 15
+  
   private PermissionHandlerPlugin(Registrar mRegistrar) {
     this.mRegistrar = mRegistrar;
   }
 
   @Retention(RetentionPolicy.SOURCE)
   @IntDef({
+      PERMISSION_GROUP_CALENDAR,
       PERMISSION_GROUP_CAMERA,
+      PERMISSION_GROUP_CONTACTS,
+      PERMISSION_GROUP_LOCATION,
+      PERMISSION_GROUP_LOCATION_ALWAYS,
+      PERMISSION_GROUP_LOCATION_WHEN_IN_USE,
       PERMISSION_GROUP_MEDIA_LIBRARY,
       PERMISSION_GROUP_MICROPHONE,
+      PERMISSION_GROUP_PHONE,
       PERMISSION_GROUP_PHOTOS,
+      PERMISSION_GROUP_REMINDERS,
+      PERMISSION_GROUP_SENSORS,
+      PERMISSION_GROUP_SMS,
+      PERMISSION_GROUP_SPEECH,
       PERMISSION_GROUP_STORAGE,
+      PERMISSION_GROUP_IGNORE_BATTERY_OPTIMIZATIONS,
       PERMISSION_GROUP_UNKNOWN,
   })
   private @interface PermissionGroup {
@@ -135,10 +159,36 @@ public class PermissionHandlerPlugin implements MethodCallHandler {
   @PermissionGroup
   private static int parseManifestName(String permission) {
     switch (permission) {
+      case Manifest.permission.READ_CALENDAR:
+      case Manifest.permission.WRITE_CALENDAR:
+        return PERMISSION_GROUP_CALENDAR;
       case Manifest.permission.CAMERA:
         return PERMISSION_GROUP_CAMERA;
+      case Manifest.permission.READ_CONTACTS:
+      case Manifest.permission.WRITE_CONTACTS:
+      case Manifest.permission.GET_ACCOUNTS:
+        return PERMISSION_GROUP_CONTACTS;
+      case Manifest.permission.ACCESS_COARSE_LOCATION:
+      case Manifest.permission.ACCESS_FINE_LOCATION:
+        return PERMISSION_GROUP_LOCATION;
       case Manifest.permission.RECORD_AUDIO:
         return PERMISSION_GROUP_MICROPHONE;
+      case Manifest.permission.READ_PHONE_STATE:
+      case Manifest.permission.CALL_PHONE:
+      case Manifest.permission.READ_CALL_LOG:
+      case Manifest.permission.WRITE_CALL_LOG:
+      case Manifest.permission.ADD_VOICEMAIL:
+      case Manifest.permission.USE_SIP:
+      case Manifest.permission.PROCESS_OUTGOING_CALLS:
+        return PERMISSION_GROUP_PHONE;
+      case Manifest.permission.BODY_SENSORS:
+        return PERMISSION_GROUP_SENSORS;
+      case Manifest.permission.SEND_SMS:
+      case Manifest.permission.RECEIVE_SMS:
+      case Manifest.permission.READ_SMS:
+      case Manifest.permission.RECEIVE_WAP_PUSH:
+      case Manifest.permission.RECEIVE_MMS:
+        return PERMISSION_GROUP_SMS;
       case Manifest.permission.READ_EXTERNAL_STORAGE:
       case Manifest.permission.WRITE_EXTERNAL_STORAGE:
         return PERMISSION_GROUP_STORAGE;
@@ -479,16 +529,94 @@ public class PermissionHandlerPlugin implements MethodCallHandler {
     final ArrayList<String> permissionNames = new ArrayList<>();
 
     switch (permission) {
+      case PERMISSION_GROUP_CALENDAR:
+        if (hasPermissionInManifest(Manifest.permission.READ_CALENDAR))
+          permissionNames.add(Manifest.permission.READ_CALENDAR);
+        if (hasPermissionInManifest(Manifest.permission.WRITE_CALENDAR))
+          permissionNames.add(Manifest.permission.WRITE_CALENDAR);
+        break;
 
       case PERMISSION_GROUP_CAMERA:
         if (hasPermissionInManifest(Manifest.permission.CAMERA))
           permissionNames.add(Manifest.permission.CAMERA);
         break;
 
+      case PERMISSION_GROUP_CONTACTS:
+        if (hasPermissionInManifest(Manifest.permission.READ_CONTACTS))
+          permissionNames.add(Manifest.permission.READ_CONTACTS);
+
+        if (hasPermissionInManifest(Manifest.permission.WRITE_CONTACTS))
+          permissionNames.add(Manifest.permission.WRITE_CONTACTS);
+
+        if (hasPermissionInManifest(Manifest.permission.GET_ACCOUNTS))
+          permissionNames.add(Manifest.permission.GET_ACCOUNTS);
+        break;
+
+      case PERMISSION_GROUP_LOCATION_ALWAYS:
+      case PERMISSION_GROUP_LOCATION_WHEN_IN_USE:
+      case PERMISSION_GROUP_LOCATION:
+        if (hasPermissionInManifest(Manifest.permission.ACCESS_COARSE_LOCATION))
+          permissionNames.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        if (hasPermissionInManifest(Manifest.permission.ACCESS_FINE_LOCATION))
+          permissionNames.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        break;
+
+
+      case PERMISSION_GROUP_SPEECH:
       case PERMISSION_GROUP_MICROPHONE:
         if (hasPermissionInManifest(Manifest.permission.RECORD_AUDIO))
           permissionNames.add(Manifest.permission.RECORD_AUDIO);
         break;
+
+      case PERMISSION_GROUP_PHONE:
+        if (hasPermissionInManifest(Manifest.permission.READ_PHONE_STATE))
+          permissionNames.add(Manifest.permission.READ_PHONE_STATE);
+
+        if (hasPermissionInManifest(Manifest.permission.CALL_PHONE))
+          permissionNames.add(Manifest.permission.CALL_PHONE);
+
+        if (hasPermissionInManifest(Manifest.permission.READ_CALL_LOG))
+          permissionNames.add(Manifest.permission.READ_CALL_LOG);
+
+        if (hasPermissionInManifest(Manifest.permission.WRITE_CALL_LOG))
+          permissionNames.add(Manifest.permission.WRITE_CALL_LOG);
+
+        if (hasPermissionInManifest(Manifest.permission.ADD_VOICEMAIL))
+          permissionNames.add(Manifest.permission.ADD_VOICEMAIL);
+
+        if (hasPermissionInManifest(Manifest.permission.USE_SIP))
+          permissionNames.add(Manifest.permission.USE_SIP);
+
+        if (hasPermissionInManifest(Manifest.permission.PROCESS_OUTGOING_CALLS))
+          permissionNames.add(Manifest.permission.PROCESS_OUTGOING_CALLS);
+        break;
+
+      case PERMISSION_GROUP_SENSORS:
+        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT_WATCH) {
+          if (hasPermissionInManifest(Manifest.permission.BODY_SENSORS)) {
+            permissionNames.add(Manifest.permission.BODY_SENSORS);
+          }
+        }
+        break;
+
+      case PERMISSION_GROUP_SMS:
+        if (hasPermissionInManifest(Manifest.permission.SEND_SMS))
+          permissionNames.add(Manifest.permission.SEND_SMS);
+
+        if (hasPermissionInManifest(Manifest.permission.RECEIVE_SMS))
+          permissionNames.add(Manifest.permission.RECEIVE_SMS);
+
+        if (hasPermissionInManifest(Manifest.permission.READ_SMS))
+          permissionNames.add(Manifest.permission.READ_SMS);
+
+        if (hasPermissionInManifest(Manifest.permission.RECEIVE_WAP_PUSH))
+          permissionNames.add(Manifest.permission.RECEIVE_WAP_PUSH);
+
+        if (hasPermissionInManifest(Manifest.permission.RECEIVE_MMS))
+          permissionNames.add(Manifest.permission.RECEIVE_MMS);
+        break;
+
       case PERMISSION_GROUP_STORAGE:
         if (hasPermissionInManifest(Manifest.permission.READ_EXTERNAL_STORAGE))
           permissionNames.add(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -497,9 +625,14 @@ public class PermissionHandlerPlugin implements MethodCallHandler {
           permissionNames.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         break;
 
+      case PERMISSION_GROUP_IGNORE_BATTERY_OPTIMIZATIONS:
+        if (VERSION.SDK_INT >= VERSION_CODES.M && hasPermissionInManifest(Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS))
+          permissionNames.add(Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+        break;
 
       case PERMISSION_GROUP_MEDIA_LIBRARY:
       case PERMISSION_GROUP_PHOTOS:
+      case PERMISSION_GROUP_REMINDERS:
       case PERMISSION_GROUP_UNKNOWN:
         return null;
     }
