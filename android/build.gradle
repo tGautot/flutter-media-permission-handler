@@ -1,4 +1,4 @@
-group 'com.baseflow.permissionhandler'
+group 'com.baseflow.mediapermissionhandler'
 version '1.0-SNAPSHOT'
 
 buildscript {
