@@ -1,4 +1,4 @@
-import 'package:permission_handler/src/permission_enums.dart';
+import 'package:media_permission_handler/src/permission_enums.dart';
 
 class Codec {
   static PermissionStatus decodePermissionStatus(int value) {
