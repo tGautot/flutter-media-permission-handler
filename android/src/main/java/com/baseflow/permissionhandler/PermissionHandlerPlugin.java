@@ -1,4 +1,4 @@
-package com.baseflow.permissionhandler;
+package com.baseflow.mediapermissionhandler;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
