@@ -29,3 +29,8 @@ dependencies:
 
   ....
 ```
+
+Please note that I created this package in a few hours from a fork, it has not been tested at all on ios, there is no guarantee of it working properly until I do (or someone else).
+
+
+Do not hesitate to share anything
