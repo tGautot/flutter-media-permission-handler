@@ -15,3 +15,17 @@ Using the base package, the app-store would reject your app unless you had speci
  There was no changes made to the android part of the package
  
  Please check out the original package readme, you may find some intresting information or answers to potential questions.
+
+## Using this package
+
+If you want to use this package in your flutter project, add this to your `pubsec.yaml`
+`
+dependencies:
+  
+  ....
+  
+  media_permission_handler:
+    git: 'git://github.com/tGautot/flutter-media-permission-handler.git'
+
+  ....
+`
